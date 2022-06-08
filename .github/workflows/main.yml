@@ -1,0 +1,23 @@
+name: Input Files Build Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: environment
+        required: true
+        type: environment
+        
+env:
+  PORT: 22
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+      - name: print environment
+        run: |
+            echo ${{ github.event.inputs.environment }}
