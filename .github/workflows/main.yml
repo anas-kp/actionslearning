@@ -28,3 +28,10 @@ jobs:
           echo "trying to print"
           echo ${{ secrets.name }} >> text.txt
           cat text.txt
+      - name: "tar"
+        run: tar -cvf file.tar text.txt 
+      - name: "upload"
+        uses: actions/upload-artifact@v2
+        with:
+          name: startup-scripts
+          path: "file.tar"
