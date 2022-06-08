@@ -35,3 +35,7 @@ jobs:
         with:
           name: startup-scripts
           path: "file.tar"
+      - name: Download Startup Scripts Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: startup-scripts
