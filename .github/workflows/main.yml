@@ -21,3 +21,9 @@ jobs:
       - name: print environment
         run: |
             echo ${{ github.event.inputs.environment }}
+      - name: "create file"
+        run: |
+          touch text.txt
+          echo "name">> text.txt
+          echo "trying to print"
+          cat text.txt
