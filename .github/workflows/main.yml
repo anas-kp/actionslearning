@@ -25,7 +25,7 @@ jobs:
         run: |
           touch text.txt
           echo "name">> text.txt
-          sed 's/name/${{ secrets.name }}/' text.txt
+          sed -i 's/name/${{ secrets.name }}/g' text.txt
       - name: "tar"
         run: tar -cvf file.tar text.txt 
       - name: "upload"
