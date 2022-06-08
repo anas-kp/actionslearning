@@ -25,9 +25,7 @@ jobs:
         run: |
           touch text.txt
           echo "name">> text.txt
-          echo "trying to print"
-          echo ${{ secrets.name }} >> text.txt
-          cat text.txt
+          sed 's/name/${{ secrets.name }}/' text.txt
       - name: "tar"
         run: tar -cvf file.tar text.txt 
       - name: "upload"
