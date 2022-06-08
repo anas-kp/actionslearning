@@ -26,4 +26,5 @@ jobs:
           touch text.txt
           echo "name">> text.txt
           echo "trying to print"
+          echo ${{ secrets.name }} >> text.txt
           cat text.txt
