@@ -35,7 +35,6 @@ jobs:
           sed -i 's/dev/hello/g' text.txt
       - name: "create file"
         run: |
-          touch text.txt
           echo "name">> text.txt
           sed -i 's/name/${{ secrets.name }}/g' text.txt
           sed -i 's/dev/hello/g' text.txt
