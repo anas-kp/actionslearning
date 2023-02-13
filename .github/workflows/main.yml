@@ -7,6 +7,12 @@ on:
         description: environment
         required: true
         type: environment
+      region:
+        type: choice
+        description: Select Region
+        options:
+          - "East US"
+          - "West US"
         
 env:
   PORT: 22
@@ -38,3 +44,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: startup-scripts
+      - name: "create file"
+        run: |
+          touch text.txt
+          echo "name">> text.txt
+          sed -i 's/name/${{ secrets.name }}/g' text.txt
+          sed -i 's/dev/hello/g' text.txt
+          getsubnetid=$($(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "ets-p-zeaus-network-rg"; else echo "ets-p-zweus-network-rg"; fi) --name $(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "iaas-10-202-224-0_24-snet"; else echo "iaas-10-206-224-0_23-snet"; fi) --vnet-name $(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "aot-p-zeaus-10-202-224-0_23-vnet"; else echo "aot-p-zweus-10-206-224-0_23-vnet"; fi))
+      
