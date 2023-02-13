@@ -51,4 +51,4 @@ jobs:
           sed -i 's/name/${{ secrets.name }}/g' text.txt
           sed -i 's/dev/hello/g' text.txt
           getsubnetid=$($(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "ets-p-zeaus-network-rg"; else echo "ets-p-zweus-network-rg"; fi) --name $(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "iaas-10-202-224-0_24-snet"; else echo "iaas-10-206-224-0_23-snet"; fi) --vnet-name $(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "aot-p-zeaus-10-202-224-0_23-vnet"; else echo "aot-p-zweus-10-206-224-0_23-vnet"; fi))
-      
+          echo "${getsubnetid}"
