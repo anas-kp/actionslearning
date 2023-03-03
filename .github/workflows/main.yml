@@ -25,31 +25,22 @@ jobs:
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v2
-      - name: print environment
-        run: |
-            echo ${{ github.event.inputs.environment }}
-      - name: "create file"
-        run: |
-          touch text.txt
-          echo "name">> text.txt
-          sed -i 's/name/${{ secrets.name }}/g' text.txt
-          sed -i 's/dev/hello/g' text.txt
-      - name: "create file"
-        run: |
-          echo "name">> text.txt
-          sed -i 's/name/${{ secrets.name }}/g' text.txt
-          sed -i 's/dev/hello/g' text.txt
-          getsubnetid=$(if [ '${{ github.event.inputs.region }}' == 'East US' ];then echo "${{ secrets.NETWORK_RG_NAME_EAST }}"; else echo "${{ secrets.NETWORK_RG_NAME_WEST }}"; fi)
-          echo "${getsubnetid}"
-          echo "${getsubnetid}">> text.txt
-      - name: "tar"
-        run: tar -cvf file.tar text.txt 
-      - name: "upload"
-        uses: actions/upload-artifact@v2
+      - name: Set up Maven
+        uses: thermofisher/setup-maven@v1.0.0
         with:
-          name: startup-scripts
-          path: "file.tar"
-      - name: Download Startup Scripts Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: startup-scripts
+          maven-version: 3.8.2
+      - run: |
+          cd /
+          ls -l
+          echo "root"
+          cd /home
+          ls -l
+          echo "home"
+          cd /home/runner/
+          ls -l
+          echo "runner"
+          cd /home/runner/.m2/
+          ls -l
+          echo "m2"
+          cat settings-security.xml
+
