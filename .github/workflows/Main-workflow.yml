@@ -46,7 +46,7 @@ jobs:
                 
     retry-on-failure:
         environment: dev
-        if: failure() &&  ( fromJSON(github.run_attempt) < ${{ needs.some-other-step.outputs.retry_limit }} )
+        if: failure() &&  ( fromJSON(github.run_attempt) < needs.some-other-step.outputs.retry_limit )
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
