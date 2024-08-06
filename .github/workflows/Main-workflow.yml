@@ -17,4 +17,4 @@ jobs:
             - env:
                   GH_REPO: ${{ github.repository }}
                   GH_TOKEN: ${{ github.token }}
-              run: gh workflow run retry_workflow.yml -F run_id=${{ github.run_id }}
+              run: gh workflow run retry_workfow.yml -F run_id=${{ github.run_id }}
