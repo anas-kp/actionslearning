@@ -4,13 +4,14 @@ on:
 
 jobs:
     some-other-step:
+        environment: dev
         runs-on: ubuntu-latest
         steps:
           - name: Something2
             run: | 
-              echo fromJSON(github.run_attempt)
               echo ${{ vars.RETRY_ATTEMPT_LIMIT }} 
-          
+              echo fromJSON(github.run_attempt)
+              
               if [[ fromJSON(github.run_attempt) != ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
                 echo "here not equal"
               fi;
