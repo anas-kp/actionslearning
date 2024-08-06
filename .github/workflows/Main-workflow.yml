@@ -26,7 +26,7 @@ jobs:
               fi;
           
           - name: Something
-            if : fromJSON(github.run_attempt) != ${{ vars.RETRY_ATTEMPT_LIMIT }} 
+            if : ${{ fromJSON(github.run_attempt) }} != ${{ vars.RETRY_ATTEMPT_LIMIT }} 
             run: exit 1
                 
     retry-on-failure:
