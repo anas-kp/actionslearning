@@ -12,6 +12,9 @@ jobs:
               uses: tj-actions/install-postgresql@v3
               with:
                 postgresql-version: 14
+
+            - name: something
+              run: exit 1 
                 
     retry-on-failure:
         if: failure() && fromJSON(github.run_attempt) < 3
