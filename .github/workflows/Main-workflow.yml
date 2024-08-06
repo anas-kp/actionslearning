@@ -54,3 +54,14 @@ jobs:
                   GH_REPO: ${{ github.repository }}
                   GH_TOKEN: ${{ github.token }}
               run: gh workflow run retry_workfow.yml -F run_id=${{ github.run_id }}
+
+    retry-on-failure2:
+        environment: dev
+        if: failure()
+        needs: [some-other-step]
+        runs-on: ubuntu-latest
+        steps:
+            - name: print
+              run: |
+                echo ${{ needs.some-other-step.outputs.retry_limit }}
+            
