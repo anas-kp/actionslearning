@@ -6,9 +6,13 @@ jobs:
     some-other-step:
         runs-on: ubuntu-latest
         steps:
-            - name: This step always fails
-              run: exit 1
-
+            - name: Setup PostgreSQL
+              id: setuppostges1
+              continue-on-error: true
+              uses: tj-actions/install-postgresql@v3
+              with:
+                postgresql-version: 14
+                
     retry-on-failure:
         if: failure() && fromJSON(github.run_attempt) < 3
         needs: [some-other-step]
