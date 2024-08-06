@@ -12,6 +12,13 @@ jobs:
               uses: tj-actions/install-postgresql@v3
               with:
                 postgresql-version: 14
+                
+            - name: Setup PostgreSQL
+              id: setuppostges2
+              continue-on-error: true
+              uses: tj-actions/install-postgresql@v3
+              with:
+                postgresql-version: 14
 
             - name: something
               run: exit 1 
