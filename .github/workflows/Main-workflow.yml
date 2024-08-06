@@ -10,13 +10,11 @@ jobs:
               run: exit 1
 
     retry-on-failure:
-        # only execute the step on failed workflows
-        # do not trigger more than 3 times
         if: failure() && fromJSON(github.run_attempt) < 3
-
-        # run thes step last
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
-             - name: something
-               run: echo "runs only on failure (for maximum of 3 times)"
+            - env:
+                  GH_REPO: ${{ github.repository }}
+                  GH_TOKEN: ${{ github.token }}
+              run: gh workflow run retry_workflow.yml -F run_id=${{ github.run_id }}
