@@ -6,6 +6,9 @@ jobs:
     some-other-step:
         environment: dev
         runs-on: ubuntu-latest
+        outputs:
+            retry_limit: ${{ steps.redandsetenv.outputs.RETRY_ATTEMPT_LIMIT }}
+            
         steps:
           - name: Something2
             run: | 
@@ -23,14 +26,27 @@ jobs:
               if [[ ${{ fromJSON(github.run_attempt) }} == ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
                 echo "here equal"
               fi;
+
+
+          - name: redandsetenv
+            id: redandsetenv
+            run: |
+                RETRY_ATTEMPT_LIMIT=${{ vars.RETRY_ATTEMPT_LIMIT }}
+                echo "RETRY_ATTEMPT_LIMIT=$RETRY_ATTEMPT_LIMIT" >> $GITHUB_OUTPUT
+
+          - name: print
+            id: print
+            run: |
+                echo ${{ steps.redandsetenv.outputs.RETRY_ATTEMPT_LIMIT }}
           
           - name: Something
             if : ${{ fromJSON(github.run_attempt) }} != ${{ vars.RETRY_ATTEMPT_LIMIT }} 
             run: exit 1
+
                 
     retry-on-failure:
         environment: dev
-        if: failure() &&  ( fromJSON(github.run_attempt) < '${{ vars.RETRY_ATTEMPT_LIMIT }}' )
+        if: failure() &&  ( fromJSON(github.run_attempt) < ${{ needs.some-other-step.outputs.retry_limit }} )
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
