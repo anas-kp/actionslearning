@@ -10,7 +10,6 @@ jobs:
           - name: Something2
             run: | 
               echo ${{ vars.RETRY_ATTEMPT_LIMIT }} 
-              echo github.run_attempt
               echo ${{ fromJSON(github.run_attempt) }}
               
               if [[ ${{ fromJSON(github.run_attempt) }} != ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
@@ -30,7 +29,7 @@ jobs:
             run: exit 1
                 
     retry-on-failure:
-        if: failure() && (${{ fromJSON(github.run_attempt) }} < ${{ vars.RETRY_ATTEMPT_LIMIT }}) 
+        if: failure() && ( ${{ fromJSON(github.run_attempt) }} < ${{ vars.RETRY_ATTEMPT_LIMIT }} ) 
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
