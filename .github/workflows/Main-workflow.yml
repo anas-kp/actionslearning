@@ -10,7 +10,8 @@ jobs:
           - name: Something2
             run: | 
               echo ${{ vars.RETRY_ATTEMPT_LIMIT }} 
-              echo fromJSON(github.run_attempt)
+              echo github.run_attempt
+              echo ${{ fromJSON(github.run_attempt) }}
               
               if [[ fromJSON(github.run_attempt) != ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
                 echo "here not equal"
