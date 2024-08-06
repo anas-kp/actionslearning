@@ -1,0 +1,22 @@
+name: Main-workflow
+on: 
+  workflow_dispatch:
+
+jobs:
+    some-other-step:
+        runs-on: ubuntu-latest
+        steps:
+            - name: This step always fails
+              run: exit 1
+
+    retry-on-failure:
+        # only execute the step on failed workflows
+        # do not trigger more than 3 times
+        if: failure() && fromJSON(github.run_attempt) < 3
+
+        # run thes step last
+        needs: [some-other-step]
+        runs-on: ubuntu-latest
+        steps:
+             - name: something
+               run: echo "runs only on failure (for maximum of 3 times)"
