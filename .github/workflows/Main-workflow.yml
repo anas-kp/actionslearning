@@ -14,7 +14,7 @@ jobs:
                 postgresql-version: 14
                 
     retry-on-failure:
-        if: failure()
+        if: failure() && fromJSON(github.run_attempt) < 3
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
