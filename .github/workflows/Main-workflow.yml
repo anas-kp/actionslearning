@@ -6,25 +6,29 @@ jobs:
     some-other-step:
         runs-on: ubuntu-latest
         steps:
-            - name: Setup PostgreSQL
-              id: setuppostges1
-              continue-on-error: true
-              uses: tj-actions/install-postgresql@v3
-              with:
-                postgresql-version: 14
-                
-            - name: Setup PostgreSQL
-              id: setuppostges2
-              continue-on-error: true
-              uses: tj-actions/install-postgresql@v3
-              with:
-                postgresql-version: 14
-
-            - name: something
-              run: exit 1 
+          - name: Something2
+            run: | 
+              echo fromJSON(github.run_attempt)
+              echo ${{ vars.RETRY_ATTEMPT_LIMIT }} 
+          
+              if [[ fromJSON(github.run_attempt) != ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
+                echo "here not equal"
+              fi;
+              
+              if [[ fromJSON(github.run_attempt) < ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
+                  echo "here less than"
+              fi;
+          
+              if [[ fromJSON(github.run_attempt) == ${{ vars.RETRY_ATTEMPT_LIMIT }}  ]]; then
+                echo "here equal"
+              fi;
+          
+          - name: Something
+            if : fromJSON(github.run_attempt) != ${{ vars.RETRY_ATTEMPT_LIMIT }} 
+            run: exit 1
                 
     retry-on-failure:
-        if: failure() && fromJSON(github.run_attempt) < 3
+        if: failure() && (fromJSON(github.run_attempt) < ${{ vars.RETRY_ATTEMPT_LIMIT }}) 
         needs: [some-other-step]
         runs-on: ubuntu-latest
         steps:
