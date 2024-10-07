@@ -27,5 +27,5 @@ jobs:
         uses: actions/checkout@v2
       - name: install expect
         run: |
-            apt install expect
+           sudo apt install expect
 
