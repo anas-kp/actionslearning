@@ -25,22 +25,7 @@ jobs:
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v2
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 2.5.2
-      - run: |
-          cd /
-          ls -l
-          echo "root"
-          cd /home
-          ls -l
-          echo "home"
-          cd /home/runner/
-          ls -l
-          echo "runner"
-          cd /home/runner/.m2/
-          ls -l
-          echo "m2"
-          cat settings-security.xml
+      - name: install expect
+        run: |
+            apt install expect
 
